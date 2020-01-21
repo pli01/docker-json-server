@@ -3,7 +3,9 @@ version: '3.5'
 services:
   api:
     image: api_json_server:latest
-    container_name: api_json_server
+    container_name: "${CONTAINER_API_JSON_NAME:-api_json_server}"
+    networks:
+      - api-json-network
     build:
       context: ./
       dockerfile: Dockerfile
@@ -20,8 +22,8 @@ services:
 #      - ./file.js:/data/file.js
 
 networks:
-  api-network:
-    name: api-network
+  api-json-network:
+    name: api-json-network
     driver: bridge
     driver_opts:
       com.docker.network.driver.mtu: 1450
