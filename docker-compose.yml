@@ -1,0 +1,31 @@
+# production mode
+version: '3.5'
+services:
+  api:
+    image: api_json_server:latest
+    container_name: api_json_server
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      args:
+        http_proxy: ${http_proxy}
+        https_proxy: ${http_proxy}
+        no_proxy: ${no_proxy}
+        npm_registry: ${NPM_REGISTRY}
+    ports:
+      - "${API_PORT:-8000}:80"
+    volumes:
+      - ./data.json:/data/db.json
+      - ./json-server.json:/data/json-server.json
+#      - ./file.js:/data/file.js
+
+networks:
+  api-network:
+    name: api-network
+    driver: bridge
+    driver_opts:
+      com.docker.network.driver.mtu: 1450
+#networks:
+#  default:
+#    external:
+#      name: ${APP}-network
