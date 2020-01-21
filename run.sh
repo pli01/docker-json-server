@@ -4,6 +4,12 @@ args="$@"
 
 args="$@ -p 80"
 
+file=/data/json-server.json
+if [ -f $file ]; then
+    echo "Found json-server.json config file, trying to open"
+    args="$args -c json-server.json"
+fi
+
 file=/data/db.json
 if [ -f $file ]; then
     echo "Found db.json, trying to open"
@@ -15,5 +21,6 @@ if [ -f $file ]; then
     echo "Found file.js seed file, trying to open"
     args="$args file.js"
 fi
+
 
 json-server $args
